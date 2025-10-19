@@ -12,13 +12,13 @@ jobs:
       image: alpine/helm:3.19.0@sha256:9b9dab5f1185f02264fde67306137e658017f9d686385acaec7fbadbf156a6aa
     steps:
       - name: Checkout head
-        uses: actions/checkout@v6
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           path: head
 
       - name: Checkout main
-        uses: actions/checkout@v6
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: main
