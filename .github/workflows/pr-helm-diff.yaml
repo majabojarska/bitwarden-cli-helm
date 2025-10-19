@@ -1,0 +1,50 @@
+name: Helm lint & diff
+
+on:
+  pull_request:
+
+jobs:
+  build_lint_validate_diff:
+    name: Lint & diff
+    permissions: write-all
+    runs-on: ubuntu-latest
+    container:
+      image: alpine/helm:3.19.0@sha256:9b9dab5f1185f02264fde67306137e658017f9d686385acaec7fbadbf156a6aa
+    steps:
+      - name: Checkout head
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          path: head
+
+      - name: Checkout main
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: main
+          path: main
+
+      - name: lint helm chart
+        run: helm lint head/helm-charts/bitwarden-cli
+
+      - name: Create build dir for head
+        run: mkdir -p build/head/
+
+      - name: Render manifest for head
+        run: |
+          helm template bitwarden-cli head/helm-charts/bitwarden-cli | tee build/head/manifest.yaml
+
+      - name: Create build dir for main
+        run: mkdir -p build/main/
+
+      - name: Render manifest for main
+        run: |
+          helm template bitwarden-cli main/helm-charts/bitwarden-cli | tee build/main/manifest.yaml
+
+      - name: Create diff comment
+        if: ${{ !github.event.pull_request.head.repo.fork }}
+        uses: int128/diff-action@24c9b9d1611bd1a66416df608b4411dc991acb88 # v1.56.0
+        with:
+          base: ./build/main/
+          head: ./build/head/
+          comment-header: "## Manifest changes"

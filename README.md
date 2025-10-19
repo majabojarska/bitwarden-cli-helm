@@ -8,7 +8,7 @@ i
 - [x] Generate default helm chart
 - [x] Add release drafter
 - [x] Add pre-commit
-- [ ] Add PR diff calc workflow
+- [x] Add PR diff calc workflow
 - [ ] Add runtime validation in Tilt
 - [ ] Add release pipeline
 - [ ] First release
