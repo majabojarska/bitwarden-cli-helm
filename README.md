@@ -1,5 +1,8 @@
 # bitwarden-cli-helm
 
+[![Status](https://github.com/majabojarska/bitwarden-cli-helm/actions/workflows/status.yaml/badge.svg)](https://github.com/majabojarska/bitwarden-cli-helm/actions/workflows/status.yaml)
+[![Dependabot Updates](https://github.com/majabojarska/bitwarden-cli-helm/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/majabojarska/bitwarden-cli-helm/actions/workflows/dependabot/dependabot-updates)
+
 Helm chart for Bitwarden CLI
 i
 
