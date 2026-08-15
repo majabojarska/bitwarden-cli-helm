@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.12.0
+        uses: helm/kind-action@v1.14.0
 
       - name: Create auth Secret used by the chart
         run: |
