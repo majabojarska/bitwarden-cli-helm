@@ -60,3 +60,25 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Secret name with API auth credentials
+*/}}
+{{- define "bitwarden-cli.authSecretName" -}}
+{{- if .Values.auth.existingSecret -}}
+{{- .Values.auth.existingSecret -}}
+{{- else -}}
+{{- printf "%s-auth" (include "bitwarden-cli.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+PVC name for CLI appdata
+*/}}
+{{- define "bitwarden-cli.appdataPvcName" -}}
+{{- if .Values.persistence.existingClaim -}}
+{{- .Values.persistence.existingClaim -}}
+{{- else -}}
+{{- printf "%s-appdata" (include "bitwarden-cli.fullname" .) -}}
+{{- end -}}
+{{- end -}}
