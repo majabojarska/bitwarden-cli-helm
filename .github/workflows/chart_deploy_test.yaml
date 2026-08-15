@@ -1,0 +1,37 @@
+name: Chart deploy test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  deploy-kind:
+    name: Deploy chart on kind
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.12.0
+
+      - name: Create auth Secret used by the chart
+        run: |
+          kubectl create namespace bitwarden-cli-test
+          kubectl -n bitwarden-cli-test create secret generic bitwarden-cli-auth \
+            --from-literal=BW_CLIENTID=dummy-client-id \
+            --from-literal=BW_CLIENTSECRET=dummy-client-secret \
+            --from-literal=BW_PASSWORD=dummy-password
+
+      - name: Deploy chart
+        run: |
+          helm upgrade --install bitwarden-cli ./helm-charts/bitwarden-cli \
+            --namespace bitwarden-cli-test
+
+      - name: Verify resources were created
+        run: |
+          kubectl -n bitwarden-cli-test get all
+          kubectl -n bitwarden-cli-test get secret bitwarden-cli-auth
+          kubectl -n bitwarden-cli-test get pvc
