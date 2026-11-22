@@ -55,7 +55,7 @@ jobs:
 
       - name: Create diff comment
         if: ${{ !github.event.pull_request.head.repo.fork }}
-        uses: int128/diff-action@7d157ee0e4e33a930be4a424f41e805390f0ff19 # v2.43.0
+        uses: int128/diff-action@aa894cae567a18b54a7c920fb17773db2c58f355 # v2.44.0
         with:
           base: ./build/main/
           head: ./build/head/
